@@ -18,9 +18,22 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Personel Expenses',
       theme: ThemeData(
-
         primarySwatch: Colors.purple,
-        
+        fontFamily: 'Quicksand',
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+        textTheme: ThemeData.light().textTheme.copyWith(
+              titleLarge: const TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+                fontWeight: FontWeight.bold
+              ),
+            ),
       ),
       home: const MyHomePage(),
     );
@@ -77,7 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text('Expense Tracker'),
+        title: const Text(
+          'Expense Tracker',
+        ),
         centerTitle: true,
         actions: [
           IconButton(
