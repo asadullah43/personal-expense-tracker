@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class NewTransaction extends StatefulWidget {
   final Function addTx;
 
-
   const NewTransaction({super.key, required this.addTx});
 
   @override
@@ -26,6 +25,7 @@ class _NewTransactionState extends State<NewTransaction> {
       enteredTitle,
       enteredAmount,
     );
+    Navigator.of(context).pop();
   }
 
   @override

@@ -16,8 +16,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(),
+      title: 'Personel Expenses',
+      theme: ThemeData(
+
+        primarySwatch: Colors.purple,
+        
+      ),
       home: const MyHomePage(),
     );
   }
@@ -72,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: const Text('Expense Tracker'),
         centerTitle: true,
         actions: [
