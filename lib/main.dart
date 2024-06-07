@@ -47,20 +47,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    // Transaction(
-    //   id: 't1',
-    //   title: 'New Shoes',
-    //   amount: 99.99,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't2',
-    //   title: 'Gorcery',
-    //   amount: 199.99,
-    //   date: DateTime.now(),
-    // ),
-  ];
+  final List<Transaction> _userTransactions = [];
   List<Transaction> get _recentTransactions {
     return _userTransactions.where(
       (tx) {
@@ -105,30 +92,41 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: const Text(
-          'Expense Tracker',
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () => startAddNewTransaction(context),
-            icon: const Icon(Icons.add),
-          ),
-        ],
+    final appBar = AppBar(
+      backgroundColor: Theme.of(context).primaryColor,
+      title: const Text(
+        'Expense Tracker',
       ),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          onPressed: () => startAddNewTransaction(context),
+          icon: const Icon(Icons.add),
+        ),
+      ],
+    );
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Chart(
-              recentTransaction: _recentTransactions,
+            SizedBox(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height - MediaQuery.of(context).padding.top ) *
+                  0.3,
+              child: Chart(
+                recentTransaction: _recentTransactions,
+              ),
             ),
-            TransactionList(
-              transactions: _userTransactions,
-              deleteTx: _deleteTransaction,
+            SizedBox(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height - MediaQuery.of(context).padding.top) *
+                  0.7,
+              child: TransactionList(
+                transactions: _userTransactions,
+                deleteTx: _deleteTransaction,
+              ),
             )
           ],
         ),
