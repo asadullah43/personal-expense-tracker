@@ -48,6 +48,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [];
+  bool _showChart = false;
   List<Transaction> get _recentTransactions {
     return _userTransactions.where(
       (tx) {
@@ -92,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandScape = MediaQuery.of(context).orientation == Orientation.landscape;
     final appBar = AppBar(
       backgroundColor: Theme.of(context).primaryColor,
       title: const Text(
@@ -105,30 +107,55 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
     );
+    final txListWidget=SizedBox(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.7,
+                    child: TransactionList(
+                      transactions: _userTransactions,
+                      deleteTx: _deleteTransaction,
+                    ),
+                  );
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height - MediaQuery.of(context).padding.top ) *
-                  0.3,
-              child: Chart(
-                recentTransaction: _recentTransactions,
-              ),
-            ),
-            SizedBox(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height - MediaQuery.of(context).padding.top) *
-                  0.7,
-              child: TransactionList(
-                transactions: _userTransactions,
-                deleteTx: _deleteTransaction,
-              ),
-            )
-          ],
+           if (isLandScape) Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              const Text('Show Chart'),
+              Switch(
+                value: _showChart,
+                onChanged: (bool value) {
+                  setState(() {
+                    _showChart = value;
+                  });
+                },
+              )
+            ]),
+            if(!isLandScape) SizedBox(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.3,
+                    child: Chart(
+                      recentTransaction: _recentTransactions,
+                    ),
+                  ),
+                  if (!isLandScape) txListWidget,
+           if (isLandScape) _showChart
+                ? SizedBox(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.7,
+                    child: Chart(
+                      recentTransaction: _recentTransactions,
+                    ),
+                  )
+                : txListWidget 
+          ], 
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
